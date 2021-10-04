@@ -1,8 +1,5 @@
 import sys
-# import os
 sys.path.append(sys.path[0] + "/...")
-# Uncomment if the above example gives you a relative path error
-# sys.path.append(os.getcwd())
 
 from pages.base_page import BasePage
 from utils.locators import Locators
