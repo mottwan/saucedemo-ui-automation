@@ -94,10 +94,10 @@ pytest-6.2.5
     |___ requirements.txt
     |___ test_suite.py
 ```
-
-#### common package
+## Package description
+#### [common](https://github.com/mottwan/saucedemo-ui-automation/tree/main/common)
 Contains page objects that are visible from any page, (e.g. header bar, side menu, footer, e.t.c)
-#### pages package
+#### [pages](https://github.com/mottwan/saucedemo-ui-automation/tree/main/pages)
 Contains the **base_page** which is the parent page for other pages like: login_page, products_page, ..., in the base_page are functions used in its children pages: <br/>
 ```
 check_page_loaded()
@@ -105,23 +105,24 @@ find_element()
 find_elemens()
 wait_element()
 ```
-rest of the pages contains of function strictly related to those individual pages
+rest of the pages contains functions strictly related to their individual pages
 
-#### test package
+#### [tests](https://github.com/mottwan/saucedemo-ui-automation/tree/main/tests)
 Contains the base_test and the actual test file **test_purchase_flow**, in the base test it is initialized the web driver and before and after functions.
 
-#### utils package 
+#### [utils](https://github.com/mottwan/saucedemo-ui-automation/tree/main/utils)
 Contains the **"driverconf.py"** file which is responsible for executable file paths. <br/>
 The **"locators.py"** file contains locators for all pages <br/>
 The **"webdriver.py"** it is web driver wrapper <br/>
 
-#### conftest file 
+## Config Files Description
+#### [conftest](https://github.com/mottwan/saucedemo-ui-automation/blob/main/conftest.py)
 It is configuration file for pytest
 
-#### pyproject.toml
+#### [pyproject.toml](https://github.com/mottwan/saucedemo-ui-automation/blob/main/pyproject.toml)
 It is project settings file
 
-#### test_suite.py
+#### [test_suite](https://github.com/mottwan/saucedemo-ui-automation/blob/main/test_suite.py)
 It is test suite runner, for adding more tests in the test suite append the test suite list with one more test loader
 ```
 test_suite = TestSuite((
@@ -130,16 +131,20 @@ test_suite = TestSuite((
     ))
 ```
 
-#### requirements.txt
+#### [requirements.txt](https://github.com/mottwan/saucedemo-ui-automation/blob/main/requirements.txt)
 This is a list of all of a project’s dependencies.
 
-#### Usage Steps:
+#### [README.md](https://github.com/mottwan/saucedemo-ui-automation/blob/main/README.md)
+Project description
+
+## Usage Steps:
 1. git clone the project locally
 2. install python on your local machine
 3. make sure at least google-chrome web browser it is installed on your local machine
-4. from project root folder install project dependencies ```pip install -r requirements.txt```
-5. run the test from command line ```pytest test_sute.py```
-6. or run from pycharm ide
+4. from project root folder install project dependencies `pip install -r requirements.txt`
+5. run the test from command line `pytest test_sute.py`
+6. or run from pycharm ide line in the bellow picture ![](resources/images/run_config.PNG)
+
 
 
 
