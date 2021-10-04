@@ -1,14 +1,11 @@
 import sys
-# import os
 sys.path.append(sys.path[0] + "/...")
-# Uncomment if the above example gives you a relative path error
-# sys.path.append(os.getcwd())
+
 
 from selenium.common.exceptions import NoSuchElementException
-
-from pages.base_page import BasePage
 from pages.checkout_page import CheckoutStepOnePage
-from utils.locators import *
+from pages.base_page import BasePage
+from utils.locators import Locators
 
 
 class CartPage(BasePage):
