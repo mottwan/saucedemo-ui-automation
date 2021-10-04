@@ -5,9 +5,6 @@ from pages.base_page import BasePage
 from utils.locators import Locators
 
 
-# Page objects are written in this module.
-# Depends on the page functionality we can have more functions for new classes
-
 class ProductsPage(BasePage):
 
     def __init__(self, driver):
