@@ -3,7 +3,10 @@ This project it is written in python, pytest and selenium webdriver, It has been
 
 ### Test Flow
 The purchase testing flow was created.
-```
+<details>
+   <summary>click to expand "Purchase testing flow"</summary>
+
+    ```
     def test_purchase_flow(self):
         login_page = LoginPage(self.driver)
         login_page.login(username='standard_user', password='secret_sauce')
@@ -43,7 +46,8 @@ The purchase testing flow was created.
         self.assertTrue(checkout_page_complete.should_be_loaded())
         header_bar_component.click_on_shopping_cart()
         self.assertEqual(cart_page.should_be_empty(), 0, 'Verify that shopping cart is empty')
-```
+    ```
+</details>
 
 ### Used resources
 Python:             | https://www.python.org/downloads/ <br/>
