@@ -1,6 +1,15 @@
 ## soucedemo-ui-automation
 This project it is written in python, pytest and selenium webdriver, It has been applied the **Page Object Model** pattern.
 
+### Reqiremens
+1. UI automation:
+   1. Use https://www.saucedemo.com/
+   2. Use standard_user
+   3. Build a UI framework using your preferred programming language (JS preferred; Java, C#, Python, etc. accepted as well)
+   4. Automate the purchase flow
+   5. Provide the readme to the solution
+   6. Upload the solution to a private repo on either gitlab or github
+
 ### Test Flow
 The purchase testing flow was created.
 <details>
@@ -148,16 +157,4 @@ Project description
 4. from project root folder install project dependencies `pip install -r requirements.txt`
 5. run the test from command line `pytest test_sute.py`
 6. or run from pycharm ide line in the bellow picture ![](resources/images/run_config.PNG)
-
-
-
-
-
-
-
-
-
-
-
-
 
