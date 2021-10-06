@@ -2,5 +2,5 @@
 minversion = "6.0"
 addopts = "--html='./reports/html/index.html'"
 testpaths = [
-    "test"
+    "tests"
 ]
