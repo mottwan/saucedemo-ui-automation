@@ -16,45 +16,45 @@ The purchase testing flow was created.
    <summary>click to expand "Purchase testing flow"</summary>
 
     ```
-    def test_purchase_flow(self):
-        login_page = LoginPage(self.driver)
-        login_page.login(username='standard_user', password='secret_sauce')
+    class TestPurchaseFlow(BaseTest):
+      def test_purchase_flow(self):
+         login_page = LoginPage(self.driver)
+         login_page.login(username=TestData.USERNAME, password=TestData.PASSWORD)
 
-        products_page = ProductsPage(self.driver)
-        self.assertTrue(products_page.page_should_be_loaded())
-        products = products_page.get_products_list()
-        items_to_shopping_cart = products_page.add_to_shopping_cart(products)
+         inventory_page = ProductsPage(self.driver)
+         assert inventory_page.page_should_be_loaded()
 
-        header_bar_component = HeaderBar(self.driver)
-        header_bar_component.click_on_shopping_cart()
+         products = inventory_page.get_products_list()
+         items_to_shopping_cart = inventory_page.add_to_shopping_cart(products)
 
-        cart_page = CartPage(self.driver)
-        items_from_shopping_cart = cart_page.get_cart_items()
-        self.assertTrue(cart_page.check_items(items_to_shopping_cart, items_from_shopping_cart))
-        cart_page.click_order_checkout()
+         header_bar = HeaderBar(self.driver)
+         header_bar.click_on_shopping_cart()
 
-        checkout_step_one_page = CheckoutStepOnePage(self.driver)
-        self.assertTrue(checkout_step_one_page.should_be_loaded())
-        checkout_step_one_page.enter_checkout_information(first_name='John', last_name='Travolta', zip_code='MD-2001')
-        checkout_step_one_page.click_continue_checkout()
+         cart_page = CartPage(self.driver)
+         items_from_shopping_cart = cart_page.get_cart_items()
+         assert cart_page.check_items(items_to_shopping_cart, items_from_shopping_cart)
+         cart_page.click_order_checkout()
 
-        checkout_step_two_page = CheckoutStepTwoPage(self.driver)
-        checkout_step_two_page.should_be_loaded()
+         checkout_start_page = CheckoutStepOnePage(self.driver)
+         assert checkout_start_page.should_be_loaded()
+         checkout_start_page.enter_checkout_information(first_name=TestData.FIRST_NAME,
+                                                       last_name=TestData.LAST_NAME, zip_code=TestData.ZIP_CODE)
+         checkout_start_page.click_continue_checkout()
 
-        self.assertTrue(checkout_step_two_page.check_products(products),
-                        'Verify that selected items are in shopping cart')
-        self.assertEqual(checkout_step_two_page.count_item_total_amount(products),
-                         checkout_step_two_page.get_item_total_amount(), 'Verify Total amount without tax')
-        self.assertEqual(checkout_step_two_page.count_total_plus_tax_amount(),
-                         checkout_step_two_page.get_total_amount(),
-                         'Total amount plus tax is fine')
+         checkout_overview_page = CheckoutStepTwoPage(self.driver)
+         checkout_overview_page.should_be_loaded()
 
-        checkout_step_two_page.click_finish_checkout()
+         assert checkout_overview_page.check_products(products)
+         assert checkout_overview_page.count_item_total_amount(
+            products) == checkout_overview_page.get_item_total_amount()
+         assert checkout_overview_page.count_total_plus_tax_amount() == checkout_overview_page.get_total_amount()
 
-        checkout_page_complete = CheckoutCompletePage(self.driver)
-        self.assertTrue(checkout_page_complete.should_be_loaded())
-        header_bar_component.click_on_shopping_cart()
-        self.assertEqual(cart_page.should_be_empty(), 0, 'Verify that shopping cart is empty')
+         checkout_overview_page.click_finish_checkout()
+
+         checkout_finish_page = CheckoutCompletePage(self.driver)
+         assert checkout_finish_page.should_be_loaded()
+         header_bar.click_on_shopping_cart()
+         assert cart_page.should_be_empty() == 0
     ```
 </details>
 
@@ -92,6 +92,7 @@ pytest-xdist-2.4.0
         |_____ __init__.py
         |_____ base_test.py
         |_____ test_purchase_flow.py.py
+        |_____ conftest.py
     |___ utils
         |_____ __init__.py
         |_____ driverconf.py
@@ -102,11 +103,9 @@ pytest-xdist-2.4.0
               |_____  chromedriver.exe
     |___ reports
         |_____  html
-    |___ conftest.py
     |___ pyproject.toml
     |___ README.md
     |___ requirements.txt
-    |___ test_suite.py
 ```
 ## Package description
 #### [common](https://github.com/mottwan/saucedemo-ui-automation/tree/main/common)
@@ -136,14 +135,6 @@ It is configuration file for pytest
 #### [pyproject.toml](https://github.com/mottwan/saucedemo-ui-automation/blob/main/pyproject.toml)
 It is project settings file
 
-#### [test_suite](https://github.com/mottwan/saucedemo-ui-automation/blob/main/test_suite.py)
-It is test suite runner, for adding more tests in the test suite append the test suite list with one more test loader
-```
-test_suite = TestSuite((
-        test_loader.loadTestsFromTestCase(TestPurchaseFlow),
-        test_loader.loadTestsFromTestCase(<Test_Name>),
-    ))
-```
 
 #### [requirements.txt](https://github.com/mottwan/saucedemo-ui-automation/blob/main/requirements.txt)
 This is a list of all of a project’s dependencies.
@@ -160,6 +151,28 @@ For parallel running an-other library is used `pytest-xdist`, for running in par
 ### Reporting
 After the test execution is finished a html report will be created in `reports/html` the reports are generated by `pytest-html` reporter. </br>
 For generate the report it needs to be run in this way `pytest test_suite.py --html=path/to/reports` unless this argument is set in `pyproject.toml`settings file.<br/>
+
+### Project expansion
+Just create new page objects in pages package, by inheriting `BasePage` and init it using `super().__init__(driver)` in page object `__init__` function,
+init locators class inside the `__init__` function of the page object, then create page specific actions, like in the bellow example <br/>
+```bazaar
+from pages.base_page import BasePage
+from config.locators import Locators
+from pages.another_page import AnotherPage
+
+
+class SamplePage(BasePage):
+    
+    def __init__(self, driver)
+    self.locator = Locators
+    super().__init__(sriver)
+    
+    def click_on_specific_button(self):
+        self.find_element(*self.locator.SAMPLE_LOCATOR).click()
+        return AnotherPage(self.driver)
+```
+#### Add more test classes
+Add more test classes like is presented above in [Test Flow](Test Flow) example 
 
 ## Usage Steps:
 1. git clone the project locally
