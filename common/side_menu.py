@@ -1,6 +1,6 @@
 from pages.base_page import BasePage
 from pages.login_page import LoginPage
-from utils.locators import Locators
+from config.locators import Locators
 
 
 class SideMenu(BasePage):

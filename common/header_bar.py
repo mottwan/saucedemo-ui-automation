@@ -1,7 +1,7 @@
 from pages.base_page import BasePage
 from pages.cart_page import CartPage
 from common.side_menu import SideMenu
-from utils.locators import Locators
+from config.locators import Locators
 
 
 class HeaderBar(BasePage):

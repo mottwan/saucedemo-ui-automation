@@ -1,8 +1,5 @@
-import sys
-sys.path.append(sys.path[0] + "/...")
-
 from pages.base_page import BasePage
-from utils.locators import Locators
+from config.locators import Locators
 
 
 class ProductsPage(BasePage):
