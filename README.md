@@ -143,7 +143,7 @@ This is a list of all of a project’s dependencies.
 Project description
 
 ### BaseTest
-BaseTest is marked to use pytest fixture init_driver which take as agrument a list of webdriver name default is set ["chrome"], if add one more element in that list (e.g. ["chrome", "firefox"]) then both drivers will start
+BaseTest is marked to use pytest fixture init_driver which take as agrument a list of webdrivers name default is set ["chrome"] in `tests/conftest::init_driver()`, if add one more element in that list (e.g. ["chrome", "firefox"]) then both drivers will start
 
 ### Run Tests in Parallel
 For parallel running an-other library is used `pytest-xdist`, for running in parallel just add one more argument `-n <number of parallel runs>` to this command `pytest -n 3 test_suite.py --html=path/to/reports`
