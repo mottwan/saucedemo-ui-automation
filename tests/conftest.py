@@ -1,8 +1,12 @@
 import os
+import sys
 from datetime import datetime
 
 import pytest
 from selenium import webdriver
+
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 from config.test_data import TestData
 from config.utils import set_driver_options
