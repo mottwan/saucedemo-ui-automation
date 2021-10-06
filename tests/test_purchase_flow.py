@@ -1,7 +1,9 @@
 from common.header_bar import HeaderBar
 from config.test_data import TestData
 from pages.cart_page import CartPage
-from pages.checkout_page import CheckoutStepOnePage, CheckoutStepTwoPage, CheckoutCompletePage
+from pages.checkout_page import (CheckoutStepOnePage,
+                                 CheckoutStepTwoPage,
+                                 CheckoutCompletePage)
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
 from tests.base_test import BaseTest
@@ -26,7 +28,7 @@ class TestPurchaseFlow(BaseTest):
         items_from_shopping_cart = cart_page.get_cart_items()
         assert cart_page.check_items(items_to_shopping_cart, items_from_shopping_cart)
         cart_page.click_order_checkout()
-        #
+
         checkout_start_page = CheckoutStepOnePage(self.driver)
         assert checkout_start_page.should_be_loaded()
         checkout_start_page.enter_checkout_information(first_name=TestData.FIRST_NAME,

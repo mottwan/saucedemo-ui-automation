@@ -95,9 +95,9 @@ pytest-xdist-2.4.0
         |_____ conftest.py
     |___ utils
         |_____ __init__.py
-        |_____ driverconf.py
+        |_____ test_data.py
         |_____ locators.py
-        |_____ webdriver.py
+        |_____ utils.py
     |___ resources
         |_____  Windows
               |_____  chromedriver.exe
@@ -172,7 +172,7 @@ class SamplePage(BasePage):
         return AnotherPage(self.driver)
 ```
 #### Add more test classes
-Add more test classes like is presented above in [Test Flow](Test Flow) example 
+Add more test classes like is presented above in **Test Flow** example 
 
 ## Usage Steps:
 1. git clone the project locally
