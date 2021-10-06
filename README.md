@@ -143,7 +143,7 @@ This is a list of all of a project’s dependencies.
 Project description
 
 ### BaseTest
-BaseTest is marked to use pytest fixture init_driver which take as agrument a list of webdriver name default is set ["chromewriver"], if add one more element in that list (e.g. ["chromewriver", "firefox"]) then both drivers will start
+BaseTest is marked to use pytest fixture init_driver which take as agrument a list of webdriver name default is set ["chrome"], if add one more element in that list (e.g. ["chrome", "firefox"]) then both drivers will start
 
 ### Run Tests in Parallel
 For parallel running an-other library is used `pytest-xdist`, for running in parallel just add one more argument `-n <number of parallel runs>` to this command `pytest -n 3 test_suite.py --html=path/to/reports`
@@ -180,5 +180,5 @@ Add more test classes like is presented above in **Test Flow** example
 3. make sure at least google-chrome web browser it is installed on your local machine
 4. from project root folder install project dependencies `pip install -r requirements.txt`
 5. run the test from command line `pytest test_suite.py`
-6. or run from pycharm ide line in the bellow picture ![](resources/images/run_config.PNG)
+6. or run from pycharm ide like in the bellow picture ![](resources/images/run_config.PNG)
 
