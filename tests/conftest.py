@@ -1,9 +1,12 @@
+import logging
 import os
 import sys
 from datetime import datetime
 
 import pytest
 from selenium import webdriver
+
+LOGGER = logging.getLogger(__name__)
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
@@ -17,13 +20,17 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 @pytest.fixture(params=["chrome"], scope='class')
 def init_driver(request):
     global driver
+    LOGGER.info('web driver initialization {}'.format(request.param))
     if request.param is None or request.param == "chrome":
         from selenium.webdriver.chrome.options import Options
         driver = webdriver.Chrome(executable_path=TestData.CHROME_EXECUTABLE, options=set_driver_options(Options()))
+        LOGGER.info('opening url {}'.format(TestData.BASE_URL))
         driver.get(TestData.BASE_URL)
     if request.param == "firefox":
         from selenium.webdriver.firefox.options import Options
-        return webdriver.Firefox(executable_path=TestData.FIREFOX_EXECUTABLE, options=set_driver_options(Options()))
+        webdriver.Firefox(executable_path=TestData.FIREFOX_EXECUTABLE, options=set_driver_options(Options()))
+        LOGGER.info('opening url {}'.format(TestData.BASE_URL))
+        driver.get(TestData.BASE_URL)
     request.cls.driver = driver
     yield
     driver.close()
@@ -48,8 +55,10 @@ def pytest_runtest_makereport(item):
             if file_name:
                 html = f'<div><img src="%s" alt="screenshot" style="width:600px;height:228px;" ' \
                        'onclick="window.open(this.src)" align="right"/></div>' % _screenshots_path(file_name)
+                extra.append(pytest_html.extras.url(TestData.BASE_URL))
                 extra.append(pytest_html.extras.html(html))
         report.extra = extra
+        LOGGER.info('Generating HTML Report in following folder {}'.format(os.path.join(ROOT_DIR, "../reports/")))
 
 
 def pytest_html_report_title(report):
