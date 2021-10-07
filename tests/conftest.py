@@ -17,10 +17,8 @@ from config.utils import (set_driver_options,
                           inject_screenshot_into_html,
                           append_extras)
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
-@pytest.fixture(params=["chrome", "firefox"], scope='class')
+@pytest.fixture(params=["chrome"], scope='class')
 def init_driver(request):
     global driver
     LOGGER.info('web driver initialization {}'.format(request.param))
@@ -54,12 +52,14 @@ def pytest_runtest_makereport(item):
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
             file_name = set_screenshot_name(report)
-            capture_screenshot(driver, ROOT_DIR, file_name)
+            capture_screenshot(driver, file_name)
             if file_name:
                 html = inject_screenshot_into_html(TestData.SCREENSHOTS_FROM_REPORTS_PATH.format(file_name))
                 append_extras(extra, pytest_html.extras.url(TestData.BASE_URL), pytest_html.extras.html(html))
         report.extra = extra
-        LOGGER.info('Generating HTML Report in following folder {}'.format(os.path.join(ROOT_DIR, "../reports/")))
+
+    if report.when == 'teardown':
+        LOGGER.info('Generating HTML Report in following folder {}'.format(TestData.REPORTS_DIR))
 
 
 def pytest_html_report_title(report):

@@ -16,6 +16,9 @@ def __executable_file_name(binary_file):
 
 
 class TestData:
+    ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    REPORTS_DIR = os.path.join(ROOT_DIR, 'reports')
+    SCREENSHOTS_DIR = os.path.join(ROOT_DIR, 'reports', 'screenshots')
     SCREENSHOTS_FROM_REPORTS_PATH = "../screenshots/{}"
     SCREENSHOTS_FROM_ROOT_DIR_PATH = "../reports/screenshots/{}"
     CHROME_EXECUTABLE = get_executable_file_path_for("chromedriver")

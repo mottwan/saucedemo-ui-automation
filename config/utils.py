@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 from datetime import datetime
+from config.test_data import TestData
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
@@ -15,8 +16,10 @@ def set_driver_options(driver_opts):
     return options
 
 
-def capture_screenshot(driver, path, name):
-    driver.get_screenshot_as_file(os.path.join(path, "../reports/screenshots/{}".format(name)))
+def capture_screenshot(driver, name):
+    # from pytest_html_reporter import attach
+    # attach(data=driver.get_screenshot_as_png())
+    driver.get_screenshot_as_file(os.path.join(TestData.ROOT_DIR, TestData.SCREENSHOTS_DIR, name))
 
 
 def set_screenshot_name(report):
@@ -36,7 +39,7 @@ def append_extras(extra, *extra_types):
 
 
 def clean_up_screenshots_folder():
-    screenshots = glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../reports/screenshots/*"))
+    screenshots = glob.glob(os.path.join(TestData.ROOT_DIR, "reports", "screenshots", "*"))
     for screenshot in screenshots:
         os.remove(screenshot)
 
