@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-from datetime import datetime
 
 import pytest
 from selenium import webdriver
@@ -12,12 +11,16 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 from config.test_data import TestData
-from config.utils import set_driver_options
+from config.utils import (set_driver_options,
+                          capture_screenshot,
+                          set_screenshot_name,
+                          inject_screenshot_into_html,
+                          append_extras)
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-@pytest.fixture(params=["chrome"], scope='class')
+@pytest.fixture(params=["chrome", "firefox"], scope='class')
 def init_driver(request):
     global driver
     LOGGER.info('web driver initialization {}'.format(request.param))
@@ -28,7 +31,9 @@ def init_driver(request):
         driver.get(TestData.BASE_URL)
     if request.param == "firefox":
         from selenium.webdriver.firefox.options import Options
-        webdriver.Firefox(executable_path=TestData.FIREFOX_EXECUTABLE, options=set_driver_options(Options()))
+        options = set_driver_options(Options())
+        options.binary_location = TestData.FIREFOX_BINARY_FILE
+        driver = webdriver.Firefox(executable_path=TestData.FIREFOX_EXECUTABLE, options=options)
         LOGGER.info('opening url {}'.format(TestData.BASE_URL))
         driver.get(TestData.BASE_URL)
     request.cls.driver = driver
@@ -45,29 +50,17 @@ def pytest_runtest_makereport(item):
     report = outcome.get_result()
     setattr(report, "duration_formatter", "%H:%M:%S.%f")
     extra = getattr(report, 'extra', [])
-
     if report.when == 'call' or report.when == "setup":
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            file_name = report.nodeid.replace("tests/", "").replace("::", "_") + "-" + datetime.now().strftime(
-                "%d-%m-%Y--%H-%M-%S--%f") + ".png"
-            _capture_screenshot(file_name)
+            file_name = set_screenshot_name(report)
+            capture_screenshot(driver, ROOT_DIR, file_name)
             if file_name:
-                html = f'<div><img src="%s" alt="screenshot" style="width:600px;height:228px;" ' \
-                       'onclick="window.open(this.src)" align="right"/></div>' % _screenshots_path(file_name)
-                extra.append(pytest_html.extras.url(TestData.BASE_URL))
-                extra.append(pytest_html.extras.html(html))
+                html = inject_screenshot_into_html(TestData.SCREENSHOTS_FROM_REPORTS_PATH.format(file_name))
+                append_extras(extra, pytest_html.extras.url(TestData.BASE_URL), pytest_html.extras.html(html))
         report.extra = extra
         LOGGER.info('Generating HTML Report in following folder {}'.format(os.path.join(ROOT_DIR, "../reports/")))
 
 
 def pytest_html_report_title(report):
     report.title = "Swag Labs Python Test Automation!"
-
-
-def _capture_screenshot(name):
-    driver.get_screenshot_as_file(os.path.join(ROOT_DIR, "../reports/screenshots/{}".format(name)))
-
-
-def _screenshots_path(screenshot):
-    return "../screenshots/{}".format(screenshot)

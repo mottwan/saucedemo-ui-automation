@@ -16,8 +16,11 @@ def __executable_file_name(binary_file):
 
 
 class TestData:
+    SCREENSHOTS_FROM_REPORTS_PATH = "../screenshots/{}"
+    SCREENSHOTS_FROM_ROOT_DIR_PATH = "../reports/screenshots/{}"
     CHROME_EXECUTABLE = get_executable_file_path_for("chromedriver")
     FIREFOX_EXECUTABLE = get_executable_file_path_for("geckodriver")
+    FIREFOX_BINARY_FILE = 'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
     BASE_URL = 'https://www.saucedemo.com/'
     USERNAME = 'standard_user'
     PASSWORD = 'secret_sauce'

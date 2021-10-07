@@ -4,7 +4,7 @@ log_cli_level = "INFO"
 log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 minversion = "6.0"
-addopts = "--html='./reports/html/index.html'"
+addopts = "-vs -rf --html=./reports/html/index.html"  # --html-report=./reports/html2/index.html
 testpaths = [
     "tests"
 ]
