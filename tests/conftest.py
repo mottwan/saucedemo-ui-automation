@@ -4,6 +4,10 @@ import sys
 
 import pytest
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from webdriver_manager.microsoft import IEDriverManager
 
 LOGGER = logging.getLogger(__name__)
 
@@ -11,27 +15,29 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 from config.test_data import TestData
-from config.utils import (set_driver_options,
-                          capture_screenshot,
+from config.utils import (capture_screenshot,
                           set_screenshot_name,
                           inject_screenshot_into_html,
                           append_extras)
 
+os.environ['WDM_LOG_LEVEL'] = '0'
+os.environ["WDM_LOCAL"] = '1'
 
-@pytest.fixture(params=["chrome"], scope='class')
+
+@pytest.fixture(params=["chrome", "firefox", "edge"], scope='class')
 def init_driver(request):
     global driver
     LOGGER.info('web driver initialization {}'.format(request.param))
     if request.param is None or request.param == "chrome":
-        from selenium.webdriver.chrome.options import Options
-        driver = webdriver.Chrome(executable_path=TestData.CHROME_EXECUTABLE, options=set_driver_options(Options()))
+        driver = webdriver.Chrome(ChromeDriverManager().install())
         LOGGER.info('opening url {}'.format(TestData.BASE_URL))
         driver.get(TestData.BASE_URL)
     if request.param == "firefox":
-        from selenium.webdriver.firefox.options import Options
-        options = set_driver_options(Options())
-        options.binary_location = TestData.FIREFOX_BINARY_FILE
-        driver = webdriver.Firefox(executable_path=TestData.FIREFOX_EXECUTABLE, options=options)
+        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        LOGGER.info('opening url {}'.format(TestData.BASE_URL))
+        driver.get(TestData.BASE_URL)
+    if request.param == "edge":
+        driver = webdriver.Edge(EdgeChromiumDriverManager().install())
         LOGGER.info('opening url {}'.format(TestData.BASE_URL))
         driver.get(TestData.BASE_URL)
     request.cls.driver = driver
