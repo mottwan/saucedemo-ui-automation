@@ -18,11 +18,11 @@ class CartPage(BasePage):
             'price': item.find_element(*self.locator.ITEM_PRICE).text,
             'quantity': int(item.find_element(*self.locator.CART_ITEM_QTY).text)} for item in cart_items]
 
-    def should_be_equal_with(self):
+    def should_be_empty(self):
         try:
             self.find_element(*self.locator.CART_ITEM_LIST)
         except NoSuchElementException:
-            return 0
+            return true
 
     def click_order_checkout(self):
         self.find_element(*self.locator.CHECKOUT_BUTTON).click()
