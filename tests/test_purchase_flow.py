@@ -48,4 +48,4 @@ class TestPurchaseFlow(BaseTest):
         checkout_finish_page = CheckoutCompletePage(self.driver)
         assert checkout_finish_page.should_be_loaded()
         header_bar.click_on_shopping_cart()
-        assert cart_page.should_be_empty() == 0
+        assert cart_page.should_be_equal_with() == 0
