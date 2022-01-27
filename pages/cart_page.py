@@ -18,7 +18,7 @@ class CartPage(BasePage):
             'price': item.find_element(*self.locator.ITEM_PRICE).text,
             'quantity': int(item.find_element(*self.locator.CART_ITEM_QTY).text)} for item in cart_items]
 
-    def should_be_empty(self):
+    def should_be_equal_with(self):
         try:
             self.find_element(*self.locator.CART_ITEM_LIST)
         except NoSuchElementException:
