@@ -1,5 +1,5 @@
 ## soucedemo-ui-automation
-This project it is written in python, pytest and selenium webdriver, It has been applied the **Page Object Model** pattern.
+This project it is written in python, pytest and selenium webdriver, The **Page Object Model** pattern has been applied.
 
 ### Reqiremens
 1. UI automation:
